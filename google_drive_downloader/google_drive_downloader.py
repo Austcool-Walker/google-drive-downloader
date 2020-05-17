@@ -6,6 +6,8 @@ from sys import stdout
 from os import makedirs
 from os.path import dirname
 from os.path import exists
+from clint.textui import progress
+import sys
 
 
 class GoogleDriveDownloader:
