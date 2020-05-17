@@ -53,8 +53,6 @@ class GoogleDriveDownloader:
             session = requests.Session()
 
             print('Downloading {} into {}... '.format(file_id, dest_path), end='')
-            total_length = int(r.headers.get('content-length'))
-            for chunk in progress.bar(r.iter_content(chunk_size=1024), expected_size=(total_length/1024) + 1):
             stdout.flush()
 
             response = session.get(GoogleDriveDownloader.DOWNLOAD_URL, params={'id': file_id}, stream=True)
@@ -92,6 +90,8 @@ class GoogleDriveDownloader:
     def _save_response_content(response, destination, showsize, current_size):
         with open(destination, 'wb') as f:
             for chunk in response.iter_content(GoogleDriveDownloader.CHUNK_SIZE):
+                        total_length = int(r.headers.get('content-length'))
+            for chunk in progress.bar(r.iter_content(chunk_size=1024), expected_size=(total_length/1024) + 1):
                 if chunk:  # filter out keep-alive new chunks
                     f.write(chunk)
                     if showsize:
