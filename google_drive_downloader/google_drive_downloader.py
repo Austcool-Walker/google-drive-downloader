@@ -53,8 +53,8 @@ class GoogleDriveDownloader:
             session = requests.Session()
 
             print('Downloading {} into {}... '.format(file_id, dest_path), end='')
-            for chunk in progress.bar(r.iter_content(chunk_size=1024), expected_size=(total_length/1024) + 1):
             total_length = int(r.headers.get('content-length'))
+            for chunk in progress.bar(r.iter_content(chunk_size=1024), expected_size=(total_length/1024) + 1):
             stdout.flush()
 
             response = session.get(GoogleDriveDownloader.DOWNLOAD_URL, params={'id': file_id}, stream=True)
